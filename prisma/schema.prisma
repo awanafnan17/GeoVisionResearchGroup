@@ -1,0 +1,778 @@
+// Geo Vision Research Group + GeoSentry
+// Complete Prisma Schema - 22 Models
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ═══════════════════════════════════════════════════════════
+// ENUMS
+// ═══════════════════════════════════════════════════════════
+
+enum Role {
+  SUPERADMIN
+  ADMIN
+  EXPERT
+  GEOSENTRY_MANAGER
+  STUDENT
+}
+
+enum ProfileStatus {
+  DRAFT
+  PENDING_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  IN_DISCUSSION
+  PROPOSAL_SENT
+  WON
+  LOST
+  CLOSED
+}
+
+enum LeadType {
+  GENERAL_INQUIRY
+  PROJECT_INQUIRY
+  EXPERT_CONTACT
+  COURSE_INQUIRY
+}
+
+enum CourseMode {
+  ONLINE
+  ONSITE
+  HYBRID
+}
+
+enum CourseStatus {
+  DRAFT
+  PUBLISHED
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+enum EnrollmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+  MANUAL_REVIEW
+}
+
+enum PaymentMethod {
+  STRIPE
+  PAYPAL
+  BANK_TRANSFER
+  OTHER
+}
+
+enum ProjectStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum BlogStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum GeoSentryStatus {
+  SUBMITTED
+  RECEIVED
+  REVIEWING
+  AWAITING_INFO
+  IN_PROGRESS
+  QUALITY_CHECK
+  COMPLETED
+  DELIVERED
+  REVISION_REQUESTED
+  ON_HOLD
+  CANCELLED
+  REFUNDED
+}
+
+enum GeoSentryPriority {
+  STANDARD
+  RUSH
+}
+
+enum GeoSentryVerdict {
+  GO
+  NO_GO
+  CONDITIONAL
+  PENDING
+}
+
+enum DepositType {
+  PORPHYRY
+  VMS
+  EPITHERMAL_HIGH_SULPHIDATION
+  EPITHERMAL_LOW_SULPHIDATION
+  OROGENIC_GOLD
+  OPHIOLITE_HOSTED
+  IOCG
+  SKARN
+  SEDEX
+  CARLIN_TYPE
+  PODIFORM_CHROMITE
+  NICKEL_LATERITE
+  LATERITE_SAPROLITE
+  PEGMATITE_LITHIUM_REE
+  BIF_IRON
+  PLACER_GOLD
+  MANGANESE
+  PHOSPHATE
+  BAUXITE
+  MVT_LEAD_ZINC
+  INTRUSION_RELATED
+  VOLCANIC_HOSTED
+  SEDIMENT_HOSTED
+  OTHER
+}
+
+enum AuditAction {
+  CREATE
+  UPDATE
+  DELETE
+  LOGIN
+  LOGOUT
+  LOGIN_FAILED
+  FILE_DOWNLOAD
+  FILE_UPLOAD
+  ROLE_CHANGE
+  STATUS_CHANGE
+  VIEW_SENSITIVE
+}
+
+// ═══════════════════════════════════════════════════════════
+// GEO VISION MODELS
+// ═══════════════════════════════════════════════════════════
+
+/// 1. User - Core authentication and role model
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String    @unique
+  emailVerified  DateTime?
+  password       String?
+  image          String?
+  role           Role      @default(STUDENT)
+  isActive       Boolean   @default(true)
+  loginAttempts  Int       @default(0)
+  lockedUntil    DateTime?
+  lastLoginAt    DateTime?
+  lastLoginIp    String?
+  createdById    String?
+  createdBy      User?     @relation("CreatedByUser", fields: [createdById], references: [id])
+  createdUsers   User[]    @relation("CreatedByUser")
+
+  // Relations
+  accounts            Account[]
+  sessions             Session[]
+  expertProfile        ExpertProfile?
+  assignedLeads        Lead[]              @relation("AssignedLeads")
+  enrollments          Enrollment[]
+  blogPosts            BlogPost[]
+  coursesAsInstructor  Course[]            @relation("InstructorCourses")
+  auditLogs            AuditLog[]
+  geoSentryRequests    GeoSentryRequest[]  @relation("GeoSentryAssignee")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+/// 2. Account - NextAuth OAuth provider accounts
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String? @db.Text
+  access_token       String? @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+/// 3. Session - NextAuth sessions
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+/// 4. VerificationToken - NextAuth email verification
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+/// 5. ExpertProfile - Full geologist profile
+model ExpertProfile {
+  id               String        @id @default(cuid())
+  userId           String        @unique
+  slug             String        @unique
+  fullName         String
+  designation      String
+  shortBio         String        @db.Text
+  fullBio          String?       @db.Text
+  profilePhoto     String?
+  cvFile           String?
+  cvDownloads      Int           @default(0)
+  cvIsPublic       Boolean       @default(true)
+  phone            String?       // PRIVATE - never exposed publicly
+  whatsapp         String?       // PRIVATE - never exposed publicly
+  officeEmail      String?       // PRIVATE - never exposed publicly
+  linkedin         String?
+  twitter          String?
+  researchgate     String?
+  googleScholar    String?
+  orcid            String?
+  website          String?
+  education        Json?
+  experience       Json?
+  publications     Json?
+  certifications   Json?
+  languages        Json?
+  awards           Json?
+  status           ProfileStatus @default(DRAFT)
+  isFeatured       Boolean       @default(false)
+  isGeoSentryFounder Boolean     @default(false)
+  profileViews     Int           @default(0)
+  sortOrder        Int           @default(0)
+  city             String?
+  country          String?
+  metaTitle        String?
+  metaDesc         String?       @db.Text
+
+  // Relations
+  user             User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specializations  ExpertSpecialization[]
+  projects         ProjectTeamMember[]
+  leads            Lead[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, isFeatured, sortOrder])
+  @@index([country])
+  @@map("expert_profiles")
+}
+
+/// 6. Specialization - Geology discipline categories
+model Specialization {
+  id          String  @id @default(cuid())
+  name        String  @unique
+  slug        String  @unique
+  description String? @db.Text
+  icon        String?
+  color       String?
+  sortOrder   Int     @default(0)
+  isActive    Boolean @default(true)
+
+  // Relations
+  experts  ExpertSpecialization[]
+  services Service[]
+  courses  Course[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("specializations")
+}
+
+/// 7. ExpertSpecialization - Many-to-many junction
+model ExpertSpecialization {
+  id               String @id @default(cuid())
+  expertProfileId  String
+  specializationId String
+
+  expertProfile  ExpertProfile  @relation(fields: [expertProfileId], references: [id], onDelete: Cascade)
+  specialization Specialization @relation(fields: [specializationId], references: [id], onDelete: Cascade)
+
+  @@unique([expertProfileId, specializationId])
+  @@index([specializationId])
+  @@map("expert_specializations")
+}
+
+/// 8. Service - Consultancy service offerings
+model Service {
+  id               String  @id @default(cuid())
+  slug             String  @unique
+  title            String
+  tagline          String?
+  description      String  @db.Text
+  fullContent      String? @db.Text
+  icon             String?
+  heroImage        String?
+  coverImage       String?
+  methodology      String? @db.Text
+  deliverables     Json?
+  tools            Json?
+  faqs             Json?
+  isPublished      Boolean @default(false)
+  isFeatured       Boolean @default(false)
+  sortOrder        Int     @default(0)
+  metaTitle        String?
+  metaDesc         String? @db.Text
+  keywords         String?
+  specializationId String?
+
+  // Relations
+  specialization Specialization? @relation(fields: [specializationId], references: [id], onDelete: SetNull)
+  projects       Project[]
+  leads          Lead[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isPublished, sortOrder])
+  @@index([specializationId])
+  @@map("services")
+}
+
+/// 9. Course - Training programs
+model Course {
+  id               String       @id @default(cuid())
+  slug             String       @unique
+  title            String
+  tagline          String?
+  description      String       @db.Text
+  fullContent      String?      @db.Text
+  thumbnail        String?
+  coverImage       String?
+  instructorId     String
+  mode             CourseMode
+  status           CourseStatus @default(DRAFT)
+  startDate        DateTime?
+  endDate          DateTime?
+  durationText     String?
+  schedule         String?
+  fee              Decimal?     @db.Decimal(10, 2)
+  currency         String       @default("USD")
+  earlyBirdFee     Decimal?     @db.Decimal(10, 2)
+  earlyBirdDeadline DateTime?
+  maxSeats         Int?
+  minSeats         Int?
+  prerequisites    String?      @db.Text
+  targetAudience   String?      @db.Text
+  syllabus         Json?
+  learningOutcomes Json?
+  includes         Json?
+  location         String?
+  certificate      Boolean      @default(false)
+  metaTitle        String?
+  metaDesc         String?      @db.Text
+  keywords         String?
+  specializationId String?
+
+  // Relations
+  instructor     User            @relation("InstructorCourses", fields: [instructorId], references: [id])
+  specialization Specialization? @relation(fields: [specializationId], references: [id], onDelete: SetNull)
+  enrollments    Enrollment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, startDate])
+  @@index([instructorId])
+  @@index([specializationId])
+  @@map("courses")
+}
+
+/// 10. Enrollment - Student course enrollment
+model Enrollment {
+  id                String           @id @default(cuid())
+  courseId           String
+  userId             String?
+  guestName          String?
+  guestEmail         String?
+  guestPhone         String?
+  guestOrganization  String?
+  guestCountry       String?
+  status             EnrollmentStatus @default(PENDING)
+  notes              String?          @db.Text
+
+  // Relations
+  course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user    User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  payment Payment?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+  @@index([userId])
+  @@index([status])
+  @@map("enrollments")
+}
+
+/// 11. Payment - Enrollment payment records
+model Payment {
+  id               String        @id @default(cuid())
+  enrollmentId     String        @unique
+  invoiceNumber    String        @unique
+  amount           Decimal       @db.Decimal(10, 2)
+  currency         String        @default("USD")
+  status           PaymentStatus @default(PENDING)
+  method           PaymentMethod @default(BANK_TRANSFER)
+  gatewayProvider  String?
+  gatewayPaymentId String?
+  gatewayResponse  Json?
+  bankReference    String?
+  receiptImage     String?
+  verifiedBy       String?
+  verifiedAt       DateTime?
+  paidAt           DateTime?
+  notes            String?       @db.Text
+
+  // Relations
+  enrollment Enrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@map("payments")
+}
+
+/// 12. Project - Portfolio / case study
+model Project {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  title           String
+  client          String?
+  sector          String?
+  country         String?
+  city            String?
+  year            Int?
+  duration        String?
+  description     String        @db.Text
+  fullContent     String?       @db.Text
+  objectives      String?       @db.Text
+  methodology     String?       @db.Text
+  results         String?       @db.Text
+  isConfidential  Boolean       @default(false)
+  images          Json?
+  coverImage      String?
+  status          ProjectStatus @default(DRAFT)
+  isFeatured      Boolean       @default(false)
+  metaTitle       String?
+  metaDesc        String?       @db.Text
+  serviceId       String?
+
+  // Relations
+  service     Service?            @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  teamMembers ProjectTeamMember[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, isFeatured, year])
+  @@index([serviceId, status, year])
+  @@index([country])
+  @@map("projects")
+}
+
+/// 13. ProjectTeamMember - Junction for project teams
+model ProjectTeamMember {
+  id              String @id @default(cuid())
+  projectId       String
+  expertProfileId String
+  role            String?
+
+  project       Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  expertProfile ExpertProfile @relation(fields: [expertProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, expertProfileId])
+  @@index([expertProfileId])
+  @@map("project_team_members")
+}
+
+/// 14. Lead - Contact and inquiry management
+model Lead {
+  id               String    @id @default(cuid())
+  type             LeadType  @default(GENERAL_INQUIRY)
+  status           LeadStatus @default(NEW)
+  name             String
+  email            String
+  phone            String?
+  organization     String?
+  country          String?
+  subject          String?
+  message          String    @db.Text
+  attachment       String?
+  projectLocation  String?
+  projectTimeline  String?
+  projectBudget    String?
+  projectType      String?
+  assignedToId     String?
+  expertProfileId  String?
+  serviceId        String?
+  isRead           Boolean   @default(false)
+  source           String?
+
+  // Relations
+  assignedTo     User?          @relation("AssignedLeads", fields: [assignedToId], references: [id], onDelete: SetNull)
+  expertProfile  ExpertProfile? @relation(fields: [expertProfileId], references: [id], onDelete: SetNull)
+  service        Service?       @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  notes          LeadNote[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([assignedToId])
+  @@map("leads")
+}
+
+/// 15. LeadNote - Notes on lead interactions
+model LeadNote {
+  id        String @id @default(cuid())
+  leadId    String
+  content   String @db.Text
+  createdBy String
+
+  lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([leadId])
+  @@map("lead_notes")
+}
+
+/// 16. BlogPost - Blog articles
+model BlogPost {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  title       String
+  excerpt     String?    @db.Text
+  content     String     @db.Text
+  coverImage  String?
+  status      BlogStatus @default(DRAFT)
+  isFeatured  Boolean    @default(false)
+  readTime    String?
+  authorId    String
+  metaTitle   String?
+  metaDesc    String?    @db.Text
+  keywords    String?
+  publishedAt DateTime?
+
+  // Relations
+  author User @relation(fields: [authorId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, isFeatured, publishedAt])
+  @@index([authorId])
+  @@map("blog_posts")
+}
+
+/// 17. Testimonial - Client testimonials
+model Testimonial {
+  id           String  @id @default(cuid())
+  name         String
+  designation  String?
+  organization String?
+  country      String?
+  photo        String?
+  content      String  @db.Text
+  rating       Int     @default(5)
+  isPublished  Boolean @default(false)
+  isFeatured   Boolean @default(false)
+  sortOrder    Int     @default(0)
+
+  createdAt DateTime @default(now())
+
+  @@map("testimonials")
+}
+
+/// 18. MediaFile - Upload management
+model MediaFile {
+  id         String @id @default(cuid())
+  name       String
+  url        String
+  type       String
+  size       Int
+  mimeType   String
+  alt        String?
+  caption    String?
+  folder     String?
+  uploadedBy String?
+
+  createdAt DateTime @default(now())
+
+  @@map("media_files")
+}
+
+/// 19. SiteSetting - Dynamic key-value configuration
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String @db.Text
+  type  String @default("text")
+  group String?
+  label String?
+
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}
+
+/// 20. AuditLog - Security and activity tracking
+model AuditLog {
+  id        String      @id @default(cuid())
+  userId    String?
+  action    AuditAction
+  entity    String?
+  entityId  String?
+  oldValue  Json?
+  newValue  Json?
+  ipAddress String?
+  userAgent String?
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+  @@index([entity, entityId])
+  @@map("audit_logs")
+}
+
+// ═══════════════════════════════════════════════════════════
+// GEOSENTRY MODELS
+// ═══════════════════════════════════════════════════════════
+
+/// 21. GeoSentryRequest - Desktop screening request pipeline
+model GeoSentryRequest {
+  id              String @id @default(cuid())
+  referenceNumber String @unique // Format: GS-YYYY-XXXX
+
+  // -- Client Info (encrypted at rest - implement at infrastructure level) --
+  clientName         String
+  clientEmail        String
+  clientPhone        String?
+  clientOrganization String?
+  clientCountry      String?
+  clientWebsite      String?
+  clientLinkedIn     String?
+
+  // ── Target Info ──
+  targetName         String
+  targetCountry      String
+  targetRegion       String?
+  targetCoordinates  String?  // "lat, lon" format
+  depositType        DepositType
+  commodityFocus     String
+  commodities        Json?    // Array of commodity strings
+  targetSizeHectares Decimal? @db.Decimal(12, 2)
+  existingData       String?  @db.Text
+
+  // ── Screening Details ──
+  projectDescription String  @db.Text
+  specificConcerns   String? @db.Text
+  keyQuestions       String? @db.Text
+  additionalContext  String? @db.Text
+  attachments        Json?   // Array of file URLs
+
+  // ── Commercial ──
+  budget         String?
+  currency       String  @default("USD")
+  timeline       String?
+  priority       GeoSentryPriority @default(STANDARD)
+  quotedPrice    Decimal?          @db.Decimal(10, 2)
+  quotedCurrency String            @default("USD")
+  invoiceFile    String?
+
+  // ── Pipeline Status ──
+  status         GeoSentryStatus @default(SUBMITTED)
+  internalNotes  String?         @db.Text // Afnan-only
+  clientNotes    String?         @db.Text // Visible to client
+  statusHistory  Json?           // Array of { status, timestamp, note }
+
+  // ── Delivery ──
+  reportFile        String?
+  reportSummary     String?          @db.Text
+  overallScore      Int?             // 0-100
+  geologicalScore   Int?             // 0-40
+  jurisdictionScore Int?             // 0-40
+  operatorScore     Int?             // 0-20
+  verdict           GeoSentryVerdict @default(PENDING)
+  deliveredAt       DateTime?
+
+  // ── Tracking ──
+  source       String?
+  isRead       Boolean @default(false)
+  assignedToId String?
+  ipAddress    String?
+
+  // Relations
+  assignedTo  User?            @relation("GeoSentryAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  statusNotes GeoSentryNote[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, priority, createdAt])
+  @@index([assignedToId])
+  @@index([clientEmail])
+  @@map("geosentry_requests")
+}
+
+/// 22. GeoSentryNote - Internal/external notes on requests
+model GeoSentryNote {
+  id         String  @id @default(cuid())
+  requestId  String
+  content    String  @db.Text
+  isInternal Boolean @default(true)
+  createdBy  String
+
+  request GeoSentryRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([requestId])
+  @@map("geosentry_notes")
+}

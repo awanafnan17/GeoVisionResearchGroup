@@ -1,0 +1,292 @@
+// ═══════════════════════════════════════════════════════════
+// Geo Vision Research Group + GeoSentry - Constants
+// ═══════════════════════════════════════════════════════════
+
+export const GEO_VISION_SPECIALIZATIONS = [
+  { id: "1", name: "Geophysics", slug: "geophysics", icon: "Waves", description: "Subsurface investigation using seismic, magnetic, gravity, and electromagnetic methods.", color: "#2E6DB4" },
+  { id: "2", name: "Hydrogeology", slug: "hydrogeology", icon: "Droplets", description: "Groundwater resource assessment, aquifer characterization, and water supply studies.", color: "#3B82F6" },
+  { id: "3", name: "Engineering Geology", slug: "engineering-geology", icon: "HardHat", description: "Geological assessment for civil engineering, tunneling, and foundation design.", color: "#64748B" },
+  { id: "4", name: "Environmental Geology", slug: "environmental-geology", icon: "Leaf", description: "Environmental site assessment, contamination studies, and remediation planning.", color: "#22C55E" },
+  { id: "5", name: "Mining Geology", slug: "mining-geology", icon: "Pickaxe", description: "Ore body delineation, grade control, and mine planning geological support.", color: "#C9A84C" },
+  { id: "6", name: "Economic Geology", slug: "economic-geology", icon: "Gem", description: "Mineral deposit evaluation, resource estimation, and economic feasibility.", color: "#E8C96D" },
+  { id: "7", name: "Mineral Exploration", slug: "mineral-exploration", icon: "Search", description: "Target generation, exploration program design, and prospect evaluation.", color: "#F59E0B" },
+  { id: "8", name: "Petroleum Geology", slug: "petroleum-geology", icon: "Fuel", description: "Basin analysis, source rock evaluation, and hydrocarbon prospectivity.", color: "#1a3a5c" },
+  { id: "9", name: "Structural Geology", slug: "structural-geology", icon: "Layers", description: "Fault and fold analysis, tectonic framework interpretation, and structural mapping.", color: "#8B5CF6" },
+  { id: "10", name: "Tectonics", slug: "tectonics", icon: "Globe", description: "Plate tectonic analysis, orogenic belt studies, and regional geodynamics.", color: "#6366F1" },
+  { id: "11", name: "Seismology", slug: "seismology", icon: "Activity", description: "Earthquake monitoring, seismic hazard analysis, and wave propagation studies.", color: "#EF4444" },
+  { id: "12", name: "Earthquake Hazard Assessment", slug: "earthquake-hazard-assessment", icon: "AlertTriangle", description: "Probabilistic and deterministic seismic hazard analysis for critical infrastructure.", color: "#DC2626" },
+  { id: "13", name: "Geotechnical Investigations", slug: "geotechnical-investigations", icon: "Hammer", description: "Site investigation, soil and rock testing, and geotechnical reporting.", color: "#78716C" },
+  { id: "14", name: "Remote Sensing", slug: "remote-sensing", icon: "Satellite", description: "Satellite imagery analysis, spectral mapping, and change detection.", color: "#0EA5E9" },
+  { id: "15", name: "GIS", slug: "gis", icon: "Map", description: "Spatial data management, geological mapping, and geodatabase development.", color: "#14B8A6" },
+  { id: "16", name: "Geomorphology", slug: "geomorphology", icon: "Mountain", description: "Landform analysis, erosion studies, and landscape evolution assessment.", color: "#A07C2D" },
+  { id: "17", name: "Geochemistry", slug: "geochemistry", icon: "FlaskConical", description: "Lithogeochemistry, soil geochemistry, and pathfinder element analysis.", color: "#D946EF" },
+  { id: "18", name: "Petrology", slug: "petrology", icon: "Hexagon", description: "Igneous, metamorphic, and sedimentary rock characterization and provenance.", color: "#F97316" },
+  { id: "19", name: "Sedimentology", slug: "sedimentology", icon: "Layers", description: "Depositional environment analysis, facies modeling, and basin stratigraphy.", color: "#CA8A04" },
+  { id: "20", name: "Stratigraphy", slug: "stratigraphy", icon: "AlignJustify", description: "Stratigraphic correlation, sequence stratigraphy, and chronostratigraphy.", color: "#A16207" },
+  { id: "21", name: "Paleontology", slug: "paleontology", icon: "Bug", description: "Biostratigraphy, micropaleontology, and fossil assemblage analysis.", color: "#65A30D" },
+  { id: "22", name: "Marine Geology", slug: "marine-geology", icon: "Anchor", description: "Seafloor mapping, marine sediment analysis, and coastal geomorphology.", color: "#0284C7" },
+  { id: "23", name: "Groundwater Modeling", slug: "groundwater-modeling", icon: "BarChart3", description: "Numerical groundwater flow and transport modeling, aquifer simulation.", color: "#2563EB" },
+  { id: "24", name: "Geohazards", slug: "geohazards", icon: "ShieldAlert", description: "Natural hazard assessment including floods, subsidence, and volcanic risk.", color: "#B91C1C" },
+  { id: "25", name: "Landslide Risk Assessment", slug: "landslide-risk-assessment", icon: "MountainSnow", description: "Slope stability analysis, landslide susceptibility mapping, and mitigation.", color: "#92400E" },
+  { id: "26", name: "Soil and Rock Mechanics", slug: "soil-and-rock-mechanics", icon: "Wrench", description: "Laboratory and field testing, shear strength analysis, and deformation studies.", color: "#57534E" },
+  { id: "27", name: "Reservoir Characterization", slug: "reservoir-characterization", icon: "Database", description: "Petrophysical analysis, reservoir modeling, and fluid flow characterization.", color: "#1E4D8C" },
+  { id: "28", name: "Well Logging", slug: "well-logging", icon: "LineChart", description: "Wireline and LWD log interpretation, formation evaluation, and correlation.", color: "#0F766E" },
+  { id: "29", name: "Geological Mapping", slug: "geological-mapping", icon: "MapPin", description: "Regional and detailed geological mapping, lithological and structural surveys.", color: "#4F46E5" },
+  { id: "30", name: "Environmental Impact Assessment", slug: "environmental-impact-assessment", icon: "TreePine", description: "EIA studies, environmental baseline surveys, and compliance monitoring.", color: "#16A34A" },
+] as const;
+
+export const GEO_VISION_SERVICES = [
+  { id: "1", name: "Mineral Exploration & Target Generation", slug: "mineral-exploration", icon: "Search", shortDesc: "Systematic mineral exploration programs from grassroots to advanced stage." },
+  { id: "2", name: "Geological Site Investigation", slug: "site-investigation", icon: "HardHat", shortDesc: "Comprehensive site characterization for engineering and construction projects." },
+  { id: "3", name: "Hydrogeological Assessment", slug: "hydrogeological-assessment", icon: "Droplets", shortDesc: "Groundwater resource evaluation, aquifer testing, and water supply development." },
+  { id: "4", name: "Environmental & EIA Services", slug: "environmental-eia", icon: "Leaf", shortDesc: "Environmental impact assessment, baseline surveys, and compliance advisory." },
+  { id: "5", name: "Geophysical Surveys", slug: "geophysical-surveys", icon: "Waves", shortDesc: "Advanced geophysical survey design, acquisition, processing, and interpretation." },
+  { id: "6", name: "GIS & Remote Sensing", slug: "gis-remote-sensing", icon: "Satellite", shortDesc: "Spatial analysis, geological mapping, and satellite data interpretation." },
+  { id: "7", name: "Geotechnical Engineering", slug: "geotechnical-engineering", icon: "Hammer", shortDesc: "Foundation design, slope stability, and ground improvement solutions." },
+  { id: "8", name: "Seismic Hazard Analysis", slug: "seismic-hazard", icon: "Activity", shortDesc: "Probabilistic and deterministic seismic hazard assessment for critical facilities." },
+  { id: "9", name: "Resource Estimation & Modeling", slug: "resource-estimation", icon: "BarChart3", shortDesc: "NI 43-101 and JORC compliant mineral resource and reserve estimation." },
+  { id: "10", name: "Petroleum Geoscience", slug: "petroleum-geoscience", icon: "Fuel", shortDesc: "Basin analysis, prospect evaluation, and reservoir characterization." },
+  { id: "11", name: "Training & Capacity Building", slug: "training", icon: "GraduationCap", shortDesc: "Professional development courses and workshops in all geoscience disciplines." },
+  { id: "12", name: "Desktop Geological Screening (GeoSentry)", slug: "geosentry-screening", icon: "Shield", shortDesc: "100-point risk-based screening for mining targets before field capital commitment." },
+] as const;
+
+export const GEOSENTRY_DEPOSIT_TYPES = [
+  { value: "PORPHYRY", label: "Porphyry", description: "Large-tonnage, low-grade Cu-Mo-Au deposits associated with intrusive complexes.", examples: "Escondida, Chuquicamata, Bingham Canyon" },
+  { value: "VMS", label: "Volcanogenic Massive Sulfide (VMS)", description: "Polymetallic sulfide deposits formed at or near seafloor by hydrothermal activity, including ophiolite-hosted variants.", examples: "Kidd Creek, Block 14B Oman, Neves-Corvo" },
+  { value: "EPITHERMAL_HIGH_SULPHIDATION", label: "Epithermal High-Sulphidation", description: "Near-surface Au-Cu deposits in acidic volcanic environments.", examples: "Yanacocha, Lepanto, El Indio" },
+  { value: "EPITHERMAL_LOW_SULPHIDATION", label: "Epithermal Low-Sulphidation", description: "Vein-hosted Au-Ag deposits in near-neutral pH hydrothermal systems.", examples: "Hishikari, Fruta del Norte, Waihi" },
+  { value: "OROGENIC_GOLD", label: "Orogenic Gold", description: "Structurally controlled gold deposits in metamorphic terranes.", examples: "Kalgoorlie, Kirkland Lake, Ashanti Belt" },
+  { value: "OPHIOLITE_HOSTED", label: "Ophiolite-Hosted", description: "Mineralization within ophiolite sequences - chromite, Cu-Au VMS in Semail-type settings.", examples: "Semail Ophiolite (Oman), Troodos (Cyprus)" },
+  { value: "IOCG", label: "Iron Oxide Copper-Gold (IOCG)", description: "Cu-Au deposits with abundant magnetite/hematite alteration.", examples: "Olympic Dam, Candelaria, Ernest Henry" },
+  { value: "SKARN", label: "Skarn", description: "Contact metasomatic deposits at intrusion-carbonate contacts.", examples: "Antamina, Ertsberg, Yerington" },
+  { value: "SEDEX", label: "Sedimentary Exhalative (SEDEX)", description: "Stratiform Zn-Pb-Ag deposits in sedimentary basins.", examples: "Red Dog, Mount Isa, Broken Hill" },
+  { value: "CARLIN_TYPE", label: "Carlin-Type Gold", description: "Sediment-hosted, disseminated Au in carbonate rocks.", examples: "Carlin Trend (Nevada), Goldstrike" },
+  { value: "PODIFORM_CHROMITE", label: "Podiform Chromite", description: "Chromite pods in ophiolitic mantle peridotites.", examples: "Kempirsai (Kazakhstan), Luobusa (Tibet)" },
+  { value: "NICKEL_LATERITE", label: "Nickel Laterite", description: "Supergene Ni-Co deposits from weathering of ultramafic rocks.", examples: "Moa Bay (Cuba), Goro (New Caledonia)" },
+  { value: "LATERITE_SAPROLITE", label: "Laterite / Saprolite", description: "Weathered profile deposits including bauxite and supergene enrichment.", examples: "Weipa (Australia), Boke (Guinea)" },
+  { value: "PEGMATITE_LITHIUM_REE", label: "Pegmatite (Lithium/REE)", description: "Rare-element pegmatites hosting Li, Cs, Ta, and REE.", examples: "Greenbushes, Tanco, Bikita" },
+  { value: "BIF_IRON", label: "Banded Iron Formation (BIF)", description: "Precambrian iron formations - major global iron ore source.", examples: "Hamersley (Australia), Carajás (Brazil)" },
+  { value: "PLACER_GOLD", label: "Placer Gold", description: "Alluvial and eluvial gold concentrations.", examples: "Klondike, Witwatersrand (paleoplacer)" },
+  { value: "MANGANESE", label: "Manganese", description: "Sedimentary and supergene manganese deposits.", examples: "Kalahari (South Africa), Groote Eylandt" },
+  { value: "PHOSPHATE", label: "Phosphate", description: "Sedimentary phosphorite deposits.", examples: "Morocco OCP, Florida, Nauru" },
+  { value: "BAUXITE", label: "Bauxite", description: "Lateritic aluminum ore deposits.", examples: "Weipa, Paragominas, Sangarédi" },
+  { value: "MVT_LEAD_ZINC", label: "Mississippi Valley-Type (MVT) Lead-Zinc", description: "Carbonate-hosted Pb-Zn deposits in platform settings.", examples: "Pine Point, Tri-State District" },
+  { value: "INTRUSION_RELATED", label: "Intrusion-Related", description: "Au-Bi-Te deposits genetically linked to reduced intrusions.", examples: "Fort Knox, Dublin Gulch, Tintina Belt" },
+  { value: "VOLCANIC_HOSTED", label: "Volcanic-Hosted", description: "Mineralization within volcanic sequences.", examples: "Various global occurrences" },
+  { value: "SEDIMENT_HOSTED", label: "Sediment-Hosted", description: "Ore deposits hosted in sedimentary rocks - Cu, Pb-Zn.", examples: "Zambian Copperbelt, Kupferschiefer" },
+  { value: "OTHER", label: "Other", description: "Deposit types not classified above.", examples: "Contact us for assessment" },
+] as const;
+
+export const GEOSENTRY_COMMODITIES = [
+  "Gold", "Silver", "Copper", "Zinc", "Lead", "Nickel", "Cobalt",
+  "Lithium", "REE", "Iron", "Manganese", "Chromite", "Phosphate",
+  "Uranium", "Coal", "Diamond", "Platinum Group", "Other",
+] as const;
+
+export const GEOSENTRY_STATUS_LABELS: Record<string, string> = {
+  SUBMITTED: "Submitted", RECEIVED: "Received", REVIEWING: "Under Review",
+  AWAITING_INFO: "Awaiting Information", IN_PROGRESS: "In Progress",
+  QUALITY_CHECK: "Quality Check", COMPLETED: "Completed", DELIVERED: "Delivered",
+  REVISION_REQUESTED: "Revision Requested", ON_HOLD: "On Hold",
+  CANCELLED: "Cancelled", REFUNDED: "Refunded",
+};
+
+export const GEOSENTRY_PRIORITY_LABELS: Record<string, string> = {
+  STANDARD: "Standard (5-7 business days)", RUSH: "Rush (2-3 business days)",
+};
+
+export const GEOSENTRY_VERDICT_LABELS: Record<string, string> = {
+  GO: "Proceed - Favorable Target", NO_GO: "No-Go - Unfavorable Target",
+  CONDITIONAL: "Conditional - Further Data Required", PENDING: "Pending Assessment",
+};
+
+export const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About", description: "Our story and mission" },
+  { href: "/services", label: "Services", description: "Consultancy disciplines" },
+  { href: "/team", label: "Team", description: "Expert geologists" },
+  { href: "/courses", label: "Courses", description: "Professional training" },
+  { href: "/portfolio", label: "Portfolio", description: "Project case studies" },
+  { href: "/blog", label: "Blog", description: "Insights and research" },
+  { href: "/contact", label: "Contact", description: "Get in touch" },
+  { href: "/geosentry", label: "GeoSentry", description: "Geological screening" },
+] as const;
+
+export const SUPERADMIN_NAV = [
+  { href: "/superadmin/dashboard", label: "Dashboard", icon: "LayoutDashboard", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/users", label: "User Management", icon: "Users", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/experts", label: "Experts", icon: "UserCheck", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/services", label: "Services", icon: "Briefcase", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/courses", label: "Courses", icon: "GraduationCap", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/payments", label: "Payments", icon: "CreditCard", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/portfolio", label: "Portfolio", icon: "FolderOpen", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/leads", label: "Leads", icon: "MessageSquare", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/blog", label: "Blog", icon: "FileText", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/geosentry", label: "GeoSentry (Read Only)", icon: "Shield", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/settings", label: "Settings", icon: "Settings", roles: ["SUPERADMIN"] },
+  { href: "/superadmin/audit-logs", label: "Audit Logs", icon: "Shield", roles: ["SUPERADMIN"] },
+] as const;
+
+export const ADMIN_NAV = [
+  { href: "/admin/dashboard", label: "Dashboard", icon: "LayoutDashboard", roles: ["ADMIN"] },
+  { href: "/admin/experts", label: "Experts", icon: "UserCheck", roles: ["ADMIN"] },
+  { href: "/admin/services", label: "Services", icon: "Briefcase", roles: ["ADMIN"] },
+  { href: "/admin/courses", label: "Courses", icon: "GraduationCap", roles: ["ADMIN"] },
+  { href: "/admin/portfolio", label: "Portfolio", icon: "FolderOpen", roles: ["ADMIN"] },
+  { href: "/admin/leads", label: "Leads", icon: "MessageSquare", roles: ["ADMIN"] },
+  { href: "/admin/blog", label: "Blog", icon: "FileText", roles: ["ADMIN"] },
+  { href: "/admin/settings", label: "Settings", icon: "Settings", roles: ["ADMIN"] },
+] as const;
+
+export const EXPERT_NAV = [
+  { href: "/expert/dashboard", label: "Dashboard", icon: "LayoutDashboard", roles: ["EXPERT"] },
+  { href: "/expert/profile", label: "My Profile", icon: "User", roles: ["EXPERT"] },
+  { href: "/expert/publications", label: "Publications", icon: "BookOpen", roles: ["EXPERT"] },
+  { href: "/expert/projects", label: "My Projects", icon: "FolderOpen", roles: ["EXPERT"] },
+  { href: "/expert/leads", label: "Assigned Leads", icon: "MessageSquare", roles: ["EXPERT"] },
+  { href: "/expert/cv", label: "CV Management", icon: "FileText", roles: ["EXPERT"] },
+  { href: "/expert/settings", label: "Settings", icon: "Settings", roles: ["EXPERT"] },
+] as const;
+
+export const GEOSENTRY_NAV = [
+  { href: "/geosentry-portal/dashboard", label: "Dashboard", icon: "LayoutDashboard", roles: ["GEOSENTRY_MANAGER"] },
+  { href: "/geosentry-portal/requests", label: "All Requests", icon: "Search", roles: ["GEOSENTRY_MANAGER"] },
+  { href: "/geosentry-portal/new-request", label: "New Request", icon: "Plus", roles: ["GEOSENTRY_MANAGER"] },
+  { href: "/geosentry-portal/delivered", label: "Delivered Reports", icon: "CheckCircle", roles: ["GEOSENTRY_MANAGER"] },
+  { href: "/geosentry-portal/analytics", label: "Analytics", icon: "BarChart2", roles: ["GEOSENTRY_MANAGER"] },
+  { href: "/geosentry-portal/settings", label: "Settings", icon: "Settings", roles: ["GEOSENTRY_MANAGER"] },
+] as const;
+
+export const STUDENT_NAV = [
+  { href: "/student/dashboard", label: "Dashboard", icon: "LayoutDashboard", roles: ["STUDENT"] },
+  { href: "/student/courses", label: "My Courses", icon: "GraduationCap", roles: ["STUDENT"] },
+  { href: "/student/payments", label: "Payments & Invoices", icon: "CreditCard", roles: ["STUDENT"] },
+  { href: "/student/settings", label: "Account Settings", icon: "Settings", roles: ["STUDENT"] },
+] as const;
+
+export const COUNTRIES = [
+  { code: "AU", name: "Australia", region: "Oceania" },
+  { code: "CA", name: "Canada", region: "North America" },
+  { code: "US", name: "United States", region: "North America" },
+  { code: "CL", name: "Chile", region: "South America" },
+  { code: "PE", name: "Peru", region: "South America" },
+  { code: "BR", name: "Brazil", region: "South America" },
+  { code: "ZA", name: "South Africa", region: "Africa" },
+  { code: "GH", name: "Ghana", region: "Africa" },
+  { code: "TZ", name: "Tanzania", region: "Africa" },
+  { code: "CD", name: "Democratic Republic of Congo", region: "Africa" },
+  { code: "ZM", name: "Zambia", region: "Africa" },
+  { code: "NA", name: "Namibia", region: "Africa" },
+  { code: "KZ", name: "Kazakhstan", region: "Central Asia" },
+  { code: "MN", name: "Mongolia", region: "East Asia" },
+  { code: "ID", name: "Indonesia", region: "Southeast Asia" },
+  { code: "PH", name: "Philippines", region: "Southeast Asia" },
+  { code: "OM", name: "Oman", region: "Middle East" },
+  { code: "SA", name: "Saudi Arabia", region: "Middle East" },
+  { code: "AE", name: "United Arab Emirates", region: "Middle East" },
+  { code: "PK", name: "Pakistan", region: "South Asia" },
+  { code: "IN", name: "India", region: "South Asia" },
+  { code: "CN", name: "China", region: "East Asia" },
+  { code: "RU", name: "Russia", region: "Europe/Asia" },
+  { code: "MX", name: "Mexico", region: "North America" },
+  { code: "AR", name: "Argentina", region: "South America" },
+  { code: "CO", name: "Colombia", region: "South America" },
+  { code: "EC", name: "Ecuador", region: "South America" },
+  { code: "BO", name: "Bolivia", region: "South America" },
+  { code: "GY", name: "Guyana", region: "South America" },
+  { code: "SR", name: "Suriname", region: "South America" },
+  { code: "GB", name: "United Kingdom", region: "Europe" },
+  { code: "SE", name: "Sweden", region: "Europe" },
+  { code: "FI", name: "Finland", region: "Europe" },
+  { code: "NO", name: "Norway", region: "Europe" },
+  { code: "IE", name: "Ireland", region: "Europe" },
+  { code: "PT", name: "Portugal", region: "Europe" },
+  { code: "ES", name: "Spain", region: "Europe" },
+  { code: "TR", name: "Turkey", region: "Europe/Asia" },
+  { code: "GR", name: "Greece", region: "Europe" },
+  { code: "RS", name: "Serbia", region: "Europe" },
+  { code: "BG", name: "Bulgaria", region: "Europe" },
+  { code: "RO", name: "Romania", region: "Europe" },
+  { code: "PL", name: "Poland", region: "Europe" },
+  { code: "DE", name: "Germany", region: "Europe" },
+  { code: "FR", name: "France", region: "Europe" },
+  { code: "IT", name: "Italy", region: "Europe" },
+  { code: "JP", name: "Japan", region: "East Asia" },
+  { code: "KR", name: "South Korea", region: "East Asia" },
+  { code: "TH", name: "Thailand", region: "Southeast Asia" },
+  { code: "MM", name: "Myanmar", region: "Southeast Asia" },
+  { code: "LA", name: "Laos", region: "Southeast Asia" },
+  { code: "VN", name: "Vietnam", region: "Southeast Asia" },
+  { code: "MY", name: "Malaysia", region: "Southeast Asia" },
+  { code: "PG", name: "Papua New Guinea", region: "Oceania" },
+  { code: "FJ", name: "Fiji", region: "Oceania" },
+  { code: "NZ", name: "New Zealand", region: "Oceania" },
+  { code: "EG", name: "Egypt", region: "Africa" },
+  { code: "MA", name: "Morocco", region: "Africa" },
+  { code: "DZ", name: "Algeria", region: "Africa" },
+  { code: "NG", name: "Nigeria", region: "Africa" },
+  { code: "ML", name: "Mali", region: "Africa" },
+  { code: "BF", name: "Burkina Faso", region: "Africa" },
+  { code: "SN", name: "Senegal", region: "Africa" },
+  { code: "GN", name: "Guinea", region: "Africa" },
+  { code: "CI", name: "Côte d'Ivoire", region: "Africa" },
+  { code: "LR", name: "Liberia", region: "Africa" },
+  { code: "SL", name: "Sierra Leone", region: "Africa" },
+  { code: "ET", name: "Ethiopia", region: "Africa" },
+  { code: "KE", name: "Kenya", region: "Africa" },
+  { code: "UG", name: "Uganda", region: "Africa" },
+  { code: "MZ", name: "Mozambique", region: "Africa" },
+  { code: "MW", name: "Malawi", region: "Africa" },
+  { code: "BW", name: "Botswana", region: "Africa" },
+  { code: "ZW", name: "Zimbabwe", region: "Africa" },
+  { code: "MG", name: "Madagascar", region: "Africa" },
+  { code: "IR", name: "Iran", region: "Middle East" },
+  { code: "IQ", name: "Iraq", region: "Middle East" },
+  { code: "JO", name: "Jordan", region: "Middle East" },
+  { code: "AF", name: "Afghanistan", region: "Central Asia" },
+  { code: "UZ", name: "Uzbekistan", region: "Central Asia" },
+  { code: "KG", name: "Kyrgyzstan", region: "Central Asia" },
+  { code: "TJ", name: "Tajikistan", region: "Central Asia" },
+] as const;
+
+export const CURRENCIES = [
+  { code: "USD", name: "US Dollar", symbol: "$" },
+  { code: "EUR", name: "Euro", symbol: "€" },
+  { code: "GBP", name: "British Pound", symbol: "£" },
+  { code: "PKR", name: "Pakistani Rupee", symbol: "₨" },
+  { code: "SAR", name: "Saudi Riyal", symbol: "﷼" },
+  { code: "AED", name: "UAE Dirham", symbol: "د.إ" },
+  { code: "INR", name: "Indian Rupee", symbol: "₹" },
+  { code: "AUD", name: "Australian Dollar", symbol: "A$" },
+  { code: "CAD", name: "Canadian Dollar", symbol: "C$" },
+  { code: "ZAR", name: "South African Rand", symbol: "R" },
+  { code: "CNY", name: "Chinese Yuan", symbol: "¥" },
+] as const;
+
+export const LEAD_TYPES = [
+  { value: "GENERAL_INQUIRY", label: "General Inquiry" },
+  { value: "PROJECT_INQUIRY", label: "Project Inquiry" },
+  { value: "EXPERT_CONTACT", label: "Expert Contact" },
+  { value: "COURSE_INQUIRY", label: "Course Inquiry" },
+] as const;
+
+export const COURSE_MODES = [
+  { value: "ONLINE", label: "Online" },
+  { value: "ONSITE", label: "On-Site" },
+  { value: "HYBRID", label: "Hybrid" },
+] as const;
+
+export const SECURITY_CONFIG = {
+  MAX_LOGIN_ATTEMPTS: 5,
+  LOCKOUT_DURATION_MINUTES: 15,
+  RATE_LIMIT_CONTACT_PER_HOUR: 3,
+  RATE_LIMIT_GEOSENTRY_PER_HOUR: 2,
+  RATE_LIMIT_LOGIN_PER_15MIN: 5,
+  RATE_LIMIT_API_PER_MINUTE: 100,
+  CV_MAX_SIZE_MB: 10,
+  REPORT_MAX_SIZE_MB: 50,
+  IMAGE_MAX_SIZE_MB: 5,
+  ALLOWED_CV_TYPES: ["application/pdf"] as string[],
+  ALLOWED_REPORT_TYPES: ["application/pdf"] as string[],
+  ALLOWED_IMAGE_TYPES: ["image/jpeg", "image/png", "image/webp"] as string[],
+} as const;

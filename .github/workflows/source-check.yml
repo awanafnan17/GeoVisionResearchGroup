@@ -1,0 +1,33 @@
+name: Source checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DATABASE_URL: postgresql://user:password@127.0.0.1:5432/geovision
+      DIRECT_URL: postgresql://user:password@127.0.0.1:5432/geovision
+      AUTH_SECRET: public-source-check-placeholder-not-for-deployment
+      NEXTAUTH_SECRET: public-source-check-placeholder-not-for-deployment
+      NEXTAUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm audit --omit=dev --audit-level=high
+      - run: npm run lint
+      - run: npm run type-check
+      - run: npm run build
