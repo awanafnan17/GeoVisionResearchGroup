@@ -1,4 +1,4 @@
-# Geo Vision Research Group & GeoSentry — Editorial Swiss Design System
+# Geo Vision Research Group & GeoSentry: Editorial Swiss Design System
 
 ## 1. Audit of Previous Interface & Identified Weaknesses
 
@@ -15,10 +15,10 @@ Before this redesign (archived at Git tag `pre-redesign-checkpoint` / commit `be
 
 | Repository | License | Legal Status | Extracted Architectural & Design Principles |
 | :--- | :--- | :--- | :--- |
-| [`chrhi/studio`](https://github.com/chrhi/studio) | **MIT License** | Permissive — patterns & primitives legally reusable | Two-segment architectural hairline rules (`Border` with a 24px solid lead segment followed by a 1px muted rule), asymmetric `PageIntro` / `SectionIntro` headers with `[text-wrap:balance]`, and left-bordered `GridList` / `List` structures instead of boxed cards. |
-| [`once-ui-system/nextjs-starter`](https://github.com/once-ui-system/nextjs-starter) | **MIT License** | Permissive — token structure legally reusable | Semantic separation of typography roles (`heading`, `body`, `label`, `code`), flat high-contrast surface hierarchy, and subdued 11px monospace chart/axis labeling. |
-| [`Afeng01/paperframe`](https://github.com/Afeng01/paperframe) | **MIT License** | Permissive — layout patterns legally reusable | Quiet editorial publication rhythm: top metadata hairline bars (`flex items-baseline gap-4 text-[11px] uppercase tracking-[0.24em]` with `<span className="h-px flex-1" />`), 3-column monospace metadata ledgers beneath headlines (`grid-cols-3 border-t pt-6`), and borderless editorial story grids. |
-| [`m90khan/07-meridian-advisory`](https://github.com/m90khan/07-meridian-advisory) | **No License** (All Rights Reserved) | **Visual study only — zero code or assets copied** | Boutique European/advisory sensibility: high-contrast editorial serif paired with geometric humanist sans-serif and monospace coordinates, numbered capability indexes (`01`–`06`), and alternating warm stone and deep obsidian sections. |
+| [`chrhi/studio`](https://github.com/chrhi/studio) | **MIT License** | Permissive; patterns and primitives may be reused | Two-segment architectural hairline rules (`Border` with a 24px solid lead segment followed by a 1px muted rule), asymmetric `PageIntro` / `SectionIntro` headers with `[text-wrap:balance]`, and left-bordered `GridList` / `List` structures instead of boxed cards. |
+| [`once-ui-system/nextjs-starter`](https://github.com/once-ui-system/nextjs-starter) | **MIT License** | Permissive; token structure may be reused | Semantic separation of typography roles (`heading`, `body`, `label`, `code`), flat high-contrast surface hierarchy, and subdued 11px monospace chart/axis labeling. |
+| [`Afeng01/paperframe`](https://github.com/Afeng01/paperframe) | **MIT License** | Permissive; layout patterns may be reused | Quiet editorial publication rhythm: top metadata hairline bars (`flex items-baseline gap-4 text-[11px] uppercase tracking-[0.24em]` with `<span className="h-px flex-1" />`), 3-column monospace metadata ledgers beneath headlines (`grid-cols-3 border-t pt-6`), and borderless editorial story grids. |
+| [`m90khan/07-meridian-advisory`](https://github.com/m90khan/07-meridian-advisory) | **No License** (All Rights Reserved) | **Visual study only; no code or assets copied** | High-contrast editorial serif paired with geometric humanist sans-serif and monospace coordinates, numbered capability indexes (`01` to `06`), and alternating warm stone and deep obsidian sections. |
 
 ---
 
@@ -34,13 +34,13 @@ Before this redesign (archived at Git tag `pre-redesign-checkpoint` / commit `be
 
 ## 4. Typography System (`next/font/google`)
 
-1. **Editorial Display Serif (`Instrument Serif`)** — `--font-playfair` / `font-heading`
+1. **Editorial Display Serif (`Instrument Serif`):** `--font-playfair` / `font-heading`
    - Used for primary page headlines (`h1`), major section titles (`h2`), pull quotes, and monograph numerals.
    - Tight tracking (`tracking-[-0.02em]`), crisp line-height (`leading-[1.02]` to `leading-[1.1]`), with italic emphasis for key geological or editorial concepts.
-2. **Contemporary Geometric Humanist Sans (`Manrope`)** — `--font-inter` / `font-sans`
+2. **Contemporary Geometric Humanist Sans (`Manrope`):** `--font-inter` / `font-sans`
    - Used for body copy, navigation, tables, form controls, and portal interfaces.
    - Clean, highly legible across dense technical tables and long-form reports.
-3. **Technical & Cartographic Monospace (`JetBrains Mono`)** — `--font-mono` / `font-mono`
+3. **Technical & Cartographic Monospace (`JetBrains Mono`):** `--font-mono` / `font-mono`
    - Used for section index numbers (`INDEX // 01`), specimen reference codes (`GS-2026-0001`), UTM/lat-long coordinates, scoring metrics (`72 / 100`), and financial/statistical tables (`tabular-nums`).
 
 ---

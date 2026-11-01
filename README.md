@@ -2,14 +2,14 @@
 
 # GeoVision Research Group
 
-### Geoscience consultancy · GeoSentry screening · courses · expert and operations portals
+### Public geoscience site · GeoSentry screening · courses · role-based portals
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Prisma-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Status](https://img.shields.io/badge/status-development-f59e0b)](#current-status)
 
-**A full-stack research and consultancy platform that joins a public geoscience website, structured geological screening, learning workflows, and role-specific operating consoles.**
+One application for public geoscience content, structured geological screening, courses, and day-to-day administration.
 
 [Features](#what-is-included) · [Architecture](docs/ARCHITECTURE.md) · [Setup](#local-setup) · [Deployment](docs/DEPLOYMENT.md) · [Security](SECURITY.md)
 
@@ -17,9 +17,9 @@
 
 ## Why this project exists
 
-GeoVision turns a geoscience organization into one coherent digital system. Public visitors can explore services, experts, publications, projects, courses, and the **GeoSentry** mineral-target screening workflow. Authorized users work through separate consoles for administration, experts, students, and screening operations instead of sharing one unrestricted dashboard.
+GeoVision keeps public content, geological screening, learning, and administration in one application. Visitors can explore services, experts, publications, projects, courses, and the **GeoSentry** mineral-target screening workflow. Authorized users have separate workspaces for administration, experts, students, and screening operations.
 
-The source demonstrates product architecture and application behavior. It does **not** include the owner's production database, people records, CVs, uploaded files, cloud state, real credentials, or private deployment reports.
+This public repository shows the application structure and workflows. It does **not** include the owner's production database, people records, CVs, uploaded files, cloud state, real credentials, or private deployment reports.
 
 ## What is included
 
@@ -104,9 +104,9 @@ The GitHub workflow runs the same source checks with non-production placeholder 
 
 ## Current status
 
-This repository is a **development source release**. The public snapshot is suitable for code review and local evaluation, not an unattended production launch. Before deployment, add a distributed rate limiter, review file scanning/storage, configure backups, rotate all secrets, create least-privilege database roles, and perform an application security review.
+This repository is a **development source release** for code review and local evaluation. It is not ready for an unattended production launch. Before deployment, add a distributed rate limiter, review file scanning and storage, configure backups, rotate all secrets, create least-privilege database roles, and perform an application security review.
 
-GeoSentry scores and verdict labels are workflow structures—not a substitute for professional field investigation, qualified-person review, legal due diligence, or an investment decision.
+GeoSentry scores and verdict labels support the review workflow. They do not replace field investigation, qualified-person review, legal due diligence, or an investment decision.
 
 ## Privacy and publication boundary
 
